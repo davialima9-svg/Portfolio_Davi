@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="calculadora.css">
+    <title>Calculadora IMC</title>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="title">Calculadora - IMC</div>
+
+            <div class="input">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome">
+            </div>
+
+            <div class="input">
+                <label for="altura">Altura:</label>
+                <input type="text" id="altura" placeholder="Ex: 1.75">
+            </div>
+
+            <div class="input">
+                <label for="peso">Peso:</label>
+                <input type="text" id="peso" placeholder="Ex: 70.5">
+            </div>
+
+            <button id="calcular">Calcular</button>
+
+            <div class="result" id="resultado"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© <span id="ano"></span> Davi Luz. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="calculadora.js"></script>
+</body>
+</html>

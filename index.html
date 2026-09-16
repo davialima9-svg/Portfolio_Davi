@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <main class="container">
+        <div class="login-box">
+            <h1>Login</h1>
+            <p class="subtitulo">Entre com seus dados para continuar</p>
+
+            <form id="loginForm">
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" placeholder="Digite seu CPF" maxlength="11" inputmode="numeric" required>
+
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" placeholder="Digite sua senha" maxlength="8" inputmode="numeric" required>
+
+                <button type="submit" id="botaoEntrar">Entrar</button>
+            </form>
+
+            <p id="mensagem"></p>
+        </div>
+    </main>
+
+    <footer>
+        © <span id="ano"></span> Davi Luz. Todos os direitos reservados.
+    </footer>
+
+    <script src="login.js"></script>
+</body>
+</html>

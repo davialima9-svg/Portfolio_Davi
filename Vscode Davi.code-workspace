@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "Vscode Davi",
+			"path": "."
+		},
+		{
+			"name": "imagem",
+			"path": "../../.vscode/imagem"
+		}
+	],
+	"settings": {}
+}

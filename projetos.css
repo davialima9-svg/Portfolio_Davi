@@ -1,0 +1,55 @@
+body{
+    min-height:100vh;
+    background:linear-gradient(
+        135deg,
+        #d6c4a1,
+        #c3ae87,
+        #b09568,
+        #8a6f4d
+    );
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+
+    font-family:'Poppins', sans-serif;
+}
+
+h1{
+    text-align:center;
+    color:#5f4b35;
+    margin-bottom:35px;
+    font-family:'Playfair Display', serif;
+    font-size:48px;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+thead th{
+    background:#8a6f4d;
+    color:white;
+    padding:18px;
+    font-family:'Poppins', sans-serif;
+    font-weight:600;
+    font-size:16px;
+    letter-spacing:0.5px;
+}
+
+tbody td{
+    padding:18px;
+    text-align:center;
+    background:rgba(255,255,255,.35);
+    color:#5f4b35;
+    border:1px solid rgba(95,75,53,.15);
+    transition:.3s;
+    font-family:'Poppins', sans-serif;
+    font-size:15px;
+    font-weight:400;
+}
+
+.horario{
+    background:#c3ae87 !important;
+    color:#5f4b35;
+    font-weight:600;
+}
