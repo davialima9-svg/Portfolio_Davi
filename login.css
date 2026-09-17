@@ -92,6 +92,23 @@ body {
     color: #16a34a;
 }
 
+.cadastro-link {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.cadastro-link a {
+    color: #2563eb;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.cadastro-link a:hover {
+    text-decoration: underline;
+}
+
 footer {
     padding: 20px;
     text-align: center;

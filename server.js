@@ -89,6 +89,36 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// Rota de Cadastro
+app.post('/cadastro', async (req, res) => {
+    const { cpf, senha } = req.body;
+
+    if (!cpf || !senha) {
+        return res.status(400).json({ sucesso: false, mensagem: 'CPF e senha são obrigatórios.' });
+    }
+
+    if (!/^\d{11}$/.test(cpf)) {
+        return res.status(400).json({ sucesso: false, mensagem: 'CPF deve ter exatamente 11 números.' });
+    }
+
+    try {
+        const [existentes] = await pool.execute('SELECT id FROM usuarios WHERE cpf = ?', [cpf]);
+
+        if (existentes.length > 0) {
+            return res.status(409).json({ sucesso: false, mensagem: 'Esse CPF já está cadastrado.' });
+        }
+
+        const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+        await pool.execute('INSERT INTO usuarios (cpf, senha) VALUES (?, ?)', [cpf, senhaCriptografada]);
+
+        return res.json({ sucesso: true, mensagem: 'Cadastro realizado com sucesso!' });
+    } catch (erro) {
+        console.error('Erro ao cadastrar:', erro.message);
+        return res.status(500).json({ sucesso: false, mensagem: `Erro no MySQL: ${erro.message}` });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`🚀 Servidor ativo em: http://localhost:${PORT}`);
 });
