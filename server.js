@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const express = require('express');
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
@@ -8,7 +6,7 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -18,11 +16,10 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '12345',
-    database: process.env.DB_NAME || 'sistema_login',
-    port: process.env.DB_PORT || 3306,
+    host: 'localhost',
+    user: 'root',
+    password: '12345',
+    database: 'sistema_login',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
