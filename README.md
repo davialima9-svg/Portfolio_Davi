@@ -1,69 +1,38 @@
-# Sistema de Login
+# Front-end (Login + Portfólio)
 
-## Por que o login não funciona no GitHub?
+Contém:
+- `index.html`, `login.css`, `login.js` → página de login
+- `port.html`, `port.css`, `port.js` → página do portfólio (só abre depois do login)
 
-O GitHub (e o GitHub Pages) só hospeda arquivos **estáticos** (HTML, CSS, JS de front-end).
-Ele **não executa código Node.js**, então o `server.js` nunca roda lá — por isso o site
-sempre mostra "Servidor Node.js offline".
+Isso é 100% estático — pode ser publicado direto no **GitHub Pages**.
 
-Para o login funcionar sem precisar rodar nada na sua máquina, o back-end (`server.js` +
-banco MySQL) precisa estar hospedado em outro lugar que execute Node.js.
+## Como a conexão entre login e portfólio funciona
+1. `login.js` faz login e grava `sessionStorage.setItem("logado", "true")`, depois
+   redireciona para `port.html`.
+2. `port.js` verifica logo no início se `sessionStorage.getItem("logado") === "true"`.
+   Se não estiver logado, manda de volta para `index.html` automaticamente — ou seja,
+   ninguém consegue acessar `port.html` direto pela URL sem passar pelo login antes.
+3. O botão "Sair" no `port.html` limpa o `sessionStorage` e volta pro login.
 
----
+## ⚠️ Antes de publicar, verifique:
+- As imagens do portfólio ficam dentro de uma pasta chamada **`img port`** (com espaço
+  no nome). Crie essa pasta ao lado do `port.html` e coloque as imagens usadas
+  (`Captura de tela...png`, `Tropical Weekly...png`, etc). Nomes de pasta/arquivo com
+  espaço e acento **funcionam**, mas dão mais chance de erro — se puder, renomeie para
+  algo tipo `img-port` sem espaço/acento e ajuste os `src` no `port.html`.
+- Os links `linguagens.html`, `humanas.html`, `matemática.html`, `natureza.html`,
+  `senai.html`, `sobre mim.html` e `project.html` ainda não existem neste pacote —
+  crie esses arquivos (ou remova os links) antes de publicar, senão vão dar página
+  não encontrada.
 
-## Opção 1 — Usar apenas localmente (mais simples)
+## Antes de publicar
+Abra `login.js` e troque esta linha pela URL real do seu back-end (depois de
+publicá-lo, veja a pasta `backend/`):
 
-1. Instale as dependências:
-   ```bash
-   npm install
-   ```
-2. Crie o banco de dados: abra o MySQL e rode o arquivo `sistema_login.sql`.
-3. Copie `.env.example` para `.env` e ajuste usuário/senha do seu MySQL.
-4. Rode o servidor:
-   ```bash
-   node server.js
-   ```
-5. Acesse `http://localhost:3000` no navegador.
-
-Esse é o modo que já funcionava antes — continua igual, só que agora usando `.env`
-em vez de senha fixa no código.
-
----
-
-## Opção 2 — Publicar de verdade (front + back no ar, sem precisar rodar nada local)
-
-### Passo 1: Hospedar o back-end (Render, gratuito)
-1. Crie uma conta em https://render.com
-2. Crie um **Web Service** novo, conectando este repositório do GitHub.
-3. Configure:
-   - Build command: `npm install`
-   - Start command: `node server.js`
-4. Em "Environment", adicione as variáveis do `.env.example` (`DB_HOST`, `DB_USER`, etc.)
-   apontando para um banco MySQL hospedado (ex: Railway, PlanetScale, Clever Cloud — todos
-   têm opção gratuita).
-5. Rode o `sistema_login.sql` nesse banco hospedado (pode ser pelo painel do serviço escolhido).
-6. Após o deploy, o Render te dará uma URL, algo como:
-   `https://sistema-login-xxxx.onrender.com`
-
-### Passo 2: Apontar o front-end para o back-end publicado
-Abra o arquivo `login.js` e troque esta linha:
 ```js
 const API_URL_PRODUCAO = "https://SEU-BACKEND.onrender.com";
 ```
-pela URL real que o Render te deu.
 
-### Passo 3: Publicar o front-end
-- Suba os arquivos (`index.html`, `login.css`, `login.js`) para o GitHub Pages, **ou**
-- Deixe tudo no mesmo serviço (Render também serve os arquivos estáticos, já que
-  `server.js` tem `app.use(express.static(__dirname))`) — nesse caso nem precisa do
-  GitHub Pages, só acessar a URL do Render mesmo.
-
----
-
-## O que foi alterado nos arquivos originais
-- **login.js**: agora detecta automaticamente se está rodando em `localhost` (usa
-  `http://localhost:3000`) ou em produção (usa a URL definida em `API_URL_PRODUCAO`).
-- **server.js**: senha e dados do MySQL agora vêm do arquivo `.env` (mais seguro,
-  e necessário para hospedar em serviços como Render).
-- Adicionado **package.json**, **.env.example** e **.gitignore**.
-- `index.html`, `login.css` e `sistema_login.sql` continuam idênticos.
+## Testar localmente
+Basta rodar o back-end (pasta `backend/`) e abrir este `index.html` no navegador,
+ou acessar `http://localhost:3000` enquanto o back-end estiver rodando.
