@@ -1,38 +1,43 @@
-# Front-end (Login + Portfólio)
+# Back-end (API de Login)
 
-Contém:
-- `index.html`, `login.css`, `login.js` → página de login
-- `port.html`, `port.css`, `port.js` → página do portfólio (só abre depois do login)
+Contém `server.js`, `package.json`, `sistema_login.sql`, `.env.example` e `.gitignore`.
+Isso precisa rodar num ambiente com **Node.js** — o GitHub Pages NÃO serve para isso.
 
-Isso é 100% estático — pode ser publicado direto no **GitHub Pages**.
-
-## Como a conexão entre login e portfólio funciona
-1. `login.js` faz login e grava `sessionStorage.setItem("logado", "true")`, depois
-   redireciona para `port.html`.
-2. `port.js` verifica logo no início se `sessionStorage.getItem("logado") === "true"`.
-   Se não estiver logado, manda de volta para `index.html` automaticamente — ou seja,
-   ninguém consegue acessar `port.html` direto pela URL sem passar pelo login antes.
-3. O botão "Sair" no `port.html` limpa o `sessionStorage` e volta pro login.
-
-## ⚠️ Antes de publicar, verifique:
-- As imagens do portfólio ficam dentro de uma pasta chamada **`img port`** (com espaço
-  no nome). Crie essa pasta ao lado do `port.html` e coloque as imagens usadas
-  (`Captura de tela...png`, `Tropical Weekly...png`, etc). Nomes de pasta/arquivo com
-  espaço e acento **funcionam**, mas dão mais chance de erro — se puder, renomeie para
-  algo tipo `img-port` sem espaço/acento e ajuste os `src` no `port.html`.
-- Os links `linguagens.html`, `humanas.html`, `matemática.html`, `natureza.html`,
-  `senai.html`, `sobre mim.html` e `project.html` ainda não existem neste pacote —
-  crie esses arquivos (ou remova os links) antes de publicar, senão vão dar página
-  não encontrada.
-
-## Antes de publicar
-Abra `login.js` e troque esta linha pela URL real do seu back-end (depois de
-publicá-lo, veja a pasta `backend/`):
-
-```js
-const API_URL_PRODUCAO = "https://SEU-BACKEND.onrender.com";
+## Rodar localmente
+```bash
+npm install
 ```
+1. Crie o banco: rode o arquivo `sistema_login.sql` no seu MySQL.
+2. Copie `.env.example` para `.env` e preencha com os dados do seu MySQL.
+3. Inicie:
+   ```bash
+   node server.js
+   ```
+4. A API sobe em `http://localhost:3000`.
 
-## Testar localmente
-Basta rodar o back-end (pasta `backend/`) e abrir este `index.html` no navegador,
-ou acessar `http://localhost:3000` enquanto o back-end estiver rodando.
+## Publicar de verdade (Render, gratuito)
+
+### Parte 1 — Banco de dados (db4free.net)
+1. Crie uma conta grátis em https://www.db4free.net (Sign up) e confirme pelo e-mail.
+2. Acesse https://www.db4free.net/phpMyAdmin/, faça login, vá na aba "SQL", cole o
+   conteúdo do `sistema_login.sql` e execute.
+3. Anote: `DB_HOST=db4free.net`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` (os que você
+   escolheu no cadastro) e `DB_PORT=3306`.
+
+### Parte 2 — Back-end (Render)
+1. Suba esta pasta (`backend/`) como um repositório no GitHub.
+2. Em https://render.com, clique em "New +" → "Blueprint" e conecte o repositório —
+   o arquivo `render.yaml` que já está aqui preenche a configuração sozinho
+   (build/start command, plano free). Se preferir manual, crie um "Web Service" com
+   Build command `npm install` e Start command `node server.js`.
+3. Quando pedir as variáveis de ambiente, cole os 5 valores que você anotou na Parte 1.
+4. Clique em criar/deploy e espere terminar (2–5 min).
+5. Ao final, o Render mostra uma URL no topo, tipo
+   `https://sistema-login-api.onrender.com`. Copie essa URL.
+
+### Parte 3 — Front-end
+Abra `login.js` (na pasta `frontend/`) e troque a linha `API_URL_PRODUCAO` por essa
+URL. Depois suba a pasta `frontend/` no GitHub Pages.
+
+> Dica: no plano grátis do Render o serviço "dorme" sem uso e demora ~30-50s pra
+> acordar na primeira requisição — é normal, não é erro.
