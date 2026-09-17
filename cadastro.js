@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
         elementoAno.textContent = new Date().getFullYear();
     }
 
+    const API_URL_PRODUCAO = "https://SEU-BACKEND.onrender.com";
+    const ehLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+    const API_BASE = ehLocal ? "" : API_URL_PRODUCAO;
+
     const cadastroForm = document.getElementById("cadastroForm");
     const mensagemEl = document.getElementById("mensagem");
 
@@ -37,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             try {
-                const response = await fetch('/cadastro', {
+                const response = await fetch(`${API_BASE}/cadastro`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ cpf, senha })
@@ -62,7 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
             } catch (error) {
                 console.error("Erro na comunicação:", error);
                 if (mensagemEl) {
-                    mensagemEl.textContent = "Servidor Node.js offline. Rode 'node server.js' no terminal.";
+                    mensagemEl.textContent = ehLocal
+                        ? "Servidor Node.js offline. Rode 'node server.js' no terminal."
+                        : "Não foi possível conectar ao servidor. Verifique se o back-end está no ar.";
                     mensagemEl.className = "erro";
                 }
             }
