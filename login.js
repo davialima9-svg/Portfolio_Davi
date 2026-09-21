@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Endereço fixo do servidor Node.js
-    const API_BASE = "http://localhost:3000";
-
     const elementoAno = document.getElementById("ano");
     if (elementoAno) {
         elementoAno.textContent = new Date().getFullYear();
@@ -12,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!loginForm) return;
 
-    loginForm.addEventListener("submit", async (e) => {
+    loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
 
         const cpfElemento = document.getElementById("cpf");
@@ -29,34 +26,22 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        try {
-            mensagemEl.textContent = "Conectando ao servidor...";
-            mensagemEl.className = "";
-
-            const response = await fetch(`${API_BASE}/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ cpf, senha })
-            });
-
-            const data = await response.json();
-
-            if (response.ok && data.sucesso) {
-                sessionStorage.setItem("logado", "true");
-                sessionStorage.setItem("cpf", cpf);
-                window.location.href = "port.html";
-                return;
-            }
-
-            mensagemEl.textContent = data.mensagem || "CPF ou senha incorretos.";
+        if (cpf.length !== 11) {
+            mensagemEl.textContent = "O CPF deve conter 11 dígitos.";
             mensagemEl.className = "erro";
-
-        } catch (erro) {
-            console.error("Erro ao conectar:", erro);
-            mensagemEl.textContent = "Não foi possível conectar ao servidor.";
-            mensagemEl.className = "erro";
+            return;
         }
+
+        // Armazena as informações de sessão no navegador
+        sessionStorage.setItem("logado", "true");
+        sessionStorage.setItem("cpf", cpf);
+
+        mensagemEl.textContent = "Login efetuado com sucesso! Redirecionando...";
+        mensagemEl.className = "sucesso";
+
+        // Redireciona para o portfólio
+        setTimeout(() => {
+            window.location.href = "port.html";
+        }, 400);
     });
 });
