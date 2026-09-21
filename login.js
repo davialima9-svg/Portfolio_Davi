@@ -32,14 +32,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Armazena as informações de sessão no navegador
+        // Guarda as informações da sessão no navegador
         sessionStorage.setItem("logado", "true");
         sessionStorage.setItem("cpf", cpf);
 
         mensagemEl.textContent = "Login efetuado com sucesso! Redirecionando...";
         mensagemEl.className = "sucesso";
 
-        // Redireciona para o portfólio
+        // Redireciona para a página do portfólio
         setTimeout(() => {
             window.location.href = "port.html";
         }, 400);
